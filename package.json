@@ -10,8 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
+    "react-sortable-tree": "^2.3.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.21.0",
