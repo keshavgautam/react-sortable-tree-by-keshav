@@ -16,29 +16,20 @@ function dropFn() {
 
   return {
     accept: "treeNode",
-    hover({ id: draggedId }, monitor) {
-      if (draggedId !== node.id) {
-        //console.log("draggedId=>", draggedId);
-        //console.log("dropId=>", node.id);
-        const didDrop = monitor.didDrop();
-        //console.log(didDrop);
-        moveCard(draggedId, node.id, "hover");
+    hover(item, monitor) {
+      console.log("         ----||||||-----       ");
+
+      let item2 = monitor.getItem();
+      let HandlerId = monitor.getHandlerId();
+      console.log(item, item2, HandlerId, node.id, monitor);
+
+      if (item.id !== node.id) {
+        // moveCard(item.id, node.id, "hover");
       }
     },
     drop: (item, monitor) => {
-      //   const dragNode = getNodeById(treeData, item.id);
-      //   const dropNode = getNodeById(treeData, node.id);
-      //   if (dragNode && dropNode) {
-      //     // Move node to new position in tree
-      //     // const temp = nodes[dragIndex];
-      //     // treeData.splice(dragIndex, 1);
-      //     // treeData.splice(dropIndex, 0, temp);
-      //     // setTree([...treeData]);
-      //     // setTree([...treeData]);
-      //     moveCard(item.id, node.id);
-      //   }
-
-      if (item.id !== node.id) {
+      let isOver = monitor.isOver();
+      if (item.id !== node.id && isOver) {
         moveCard(item.id, node.id, "drop");
       }
     },
@@ -98,35 +89,21 @@ export const NestedSortableTree = (props) => {
 
   const moveCard = React.useCallback(
     (id, atId, source) => {
+      console.log("         update start     ", id, atId, source);
       const dragNode = getNodeById(tree, id);
       const dropNode = getNodeById(tree, atId);
       if (dragNode && dropNode) {
-        console.log("         ----||||||-----       ");
         let a = [...tree];
-        console.log("tree before =>", tree);
+        // console.log("tree before =>", tree);
         a = removeNode(a, id);
         a = replaceNode(a, atId, dropNode.parent, dragNode.node);
-        console.log("tree after =>", a);
+        // console.log("tree after =>", a);
         setTree(a);
       }
     },
     [tree]
   );
-  // const moveCard = (id, atId, source) => {
-  //   // const dragNode = getNodeById(tree, id);
-  //   // const dropNode = getNodeById(tree, atId);
-  //   // //console.log("dragNode=>", dragNode);
-  //   // //console.log("dropNode=>", dropNode);
-  //   // //console.log("source=>", source);
-  //   // let a = [...tree];
-  //   // a.splice(dragNode.index, 1);
-  //   // a.splice(dropNode.index, 0, dragNode.node);
-  //   // if (dragNode && dropNode) {
-  //   //   a = updateNode(a, dragNode.node, dragNode.parent, "remove");
-  //   //   a = updateNode(a, dropNode.node, dropNode.parent, "update");
-  //   //     setTree(a);
-  //   // }
-  // };
+
   const [{ canDrop, isOver }, drop] = useDrop(
     dropFn.bind({
       treeData: tree,
