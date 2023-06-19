@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "immutability-helper": "^3.1.1",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1"
   },
@@ -30,5 +31,4 @@
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.12.0"
   }
-  
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import SortableTree from "../main";
+import "./style.css";
 
 const App = () => {
   const Tree = [
@@ -48,6 +49,23 @@ const App = () => {
   ];
 
   const [tree, setTree] = React.useState([]);
+
+  const [id, setId] = React.useState("");
+  const [title, setTitle] = React.useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Do something with the captured values (e.g., send them to an API)
+    console.log("ID:", id);
+    console.log("Title:", title);
+    let a = tree;
+    a.push({ id: id, label: title, children: [] });
+    setTree(a);
+    // Reset the input fields
+    setId("");
+    setTitle("");
+  };
+
   React.useEffect(() => {
     setTree(Tree);
   }, []);
@@ -57,13 +75,44 @@ const App = () => {
   console.log("tree in parent outside=>", tree);
   return (
     <div>
-      <SortableTree
-        tree={tree}
-        setTree={(a) => {
-          console.log("updated===>");
-          setTree(a);
-        }}
-      />
+      <div className="wrap">
+        <SortableTree
+          tree={tree}
+          setTree={(a) => {
+            console.log("updated===>");
+            setTree(a);
+          }}
+        />
+      </div>
+
+      <div className="form-wrap">
+        <h1>Enter ID and Title</h1>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="id">ID:</label>
+          <input
+            type="text"
+            id="id"
+            name="id"
+            value={id}
+            onChange={(e) => setId(e.target.value)}
+            required
+          />
+          <br />
+          <br />
+          <label htmlFor="title">Title:</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+          <br />
+          <br />
+          <input type="submit" value="Submit" />
+        </form>
+      </div>
     </div>
   );
 };
